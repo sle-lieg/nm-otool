@@ -1,18 +1,31 @@
 #include "nm.h"
 
-void	handle_64(void *ptr)
+void	handle_64(char *ptr)
 {
-	struct mach_header_64 *header;
+	struct mach_header_64	*header;
+	// struct load_command		*ldc;
+	struct segment_command_64 *ldc;
+	// uint32_t						ncmds;
+	uint32_t						i;
 
-	header = ptr;
-	ft_printf("magic: %u\n", header->magic);
-	// ft_printf("cputype: %ud\n", header->cputype);
-	// ft_printf("cpusubtype: %ud\n", header->cpusubtype);
-	ft_printf("filetype: %u\n", header->filetype);
-	ft_printf("ncmds: %u\n", header->ncmds);
-	ft_printf("sizeofcmds: %u\n", header->sizeofcmds);
-	ft_printf("flags: %u\n", header->flags);
-	ft_printf("reserved: %u\n", header->reserved);
+	header = (struct mach_header_64 *)ptr;
+
+	ldc = (struct segment_command_64 *)(header + 1);
+	i = 0;
+	ft_printf("nb: %u\n", header->ncmds);
+	while (i++ < header->ncmds)
+	{
+		ft_printf("ldc[%s]: type=%u size=%u\n", ldc->segname, ldc->cmd, ldc->cmdsize);
+		ldc = (struct segment_command_64 *)((char*)ldc + ldc->cmdsize);
+	}
+	// ldc = (struct load_command *)(header + 1);
+	// i = 0;
+	// ft_printf("nb: %u\n", header->ncmds);
+	// while (i++ < header->ncmds)
+	// {
+	// 	ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
+	// 	ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
+	// }
 }
 
 void	nm(void *file_map)
