@@ -1,31 +1,48 @@
 #include "nm.h"
 
+void	read_sym_table(struct nlist_64 *ptr, char *str_table, int nb_sym) // add strsize, the size of string table to check if the file is valid
+{
+	int i;
+
+	i = 0;
+	while (nb_sym--)
+	{
+		i = ptr->n_un.n_strx;
+		if (i != 0)
+			ft_printf("%s\n", str_table + i);
+		else
+			ft_printf("FUCK\n");
+		ptr++;
+	}
+}
+
 void	handle_64(char *ptr)
 {
 	struct mach_header_64	*header;
-	// struct load_command		*ldc;
-	struct segment_command_64 *ldc;
+	struct load_command		*ldc;
+	struct symtab_command	*scmd;
+	// struct segment_command_64 *ldc;
 	// uint32_t						ncmds;
 	uint32_t						i;
 
 	header = (struct mach_header_64 *)ptr;
-
-	ldc = (struct segment_command_64 *)(header + 1);
+	ldc = (struct load_command *)(header + 1);
+	scmd = NULL;
 	i = 0;
-	ft_printf("nb: %u\n", header->ncmds);
+
+	// ft_printf("nb: %u\n", header->ncmds);
 	while (i++ < header->ncmds)
 	{
-		ft_printf("ldc[%s]: type=%u size=%u\n", ldc->segname, ldc->cmd, ldc->cmdsize);
-		ldc = (struct segment_command_64 *)((char*)ldc + ldc->cmdsize);
+		// ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
+		if (ldc->cmd == LC_SYMTAB)
+		{
+			scmd = (struct symtab_command *)ldc;
+			// ft_printf("FOUND %d %d %d\n", scmd->symoff, scmd->stroff, scmd->nsyms);
+			read_sym_table((struct nlist_64 *)(ptr + scmd->symoff), ptr + scmd->stroff, scmd->nsyms);
+			break ;
+		}
+		ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
 	}
-	// ldc = (struct load_command *)(header + 1);
-	// i = 0;
-	// ft_printf("nb: %u\n", header->ncmds);
-	// while (i++ < header->ncmds)
-	// {
-	// 	ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
-	// 	ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
-	// }
 }
 
 void	nm(void *file_map)
