@@ -1,49 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
+/*   Updated: 2018/09/13 20:03:42 by sle-lieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "nm.h"
-
-void	read_sym_table(struct nlist_64 *ptr, char *str_table, int nb_sym) // add strsize, the size of string table to check if the file is valid
-{
-	int i;
-
-	i = 0;
-	while (nb_sym--)
-	{
-		i = ptr->n_un.n_strx;
-		if (i != 0)
-			ft_printf("%s\n", str_table + i);
-		else
-			ft_printf("FUCK\n");
-		ptr++;
-	}
-}
-
-void	handle_64(char *ptr)
-{
-	struct mach_header_64	*header;
-	struct load_command		*ldc;
-	struct symtab_command	*scmd;
-	// struct segment_command_64 *ldc;
-	// uint32_t						ncmds;
-	uint32_t						i;
-
-	header = (struct mach_header_64 *)ptr;
-	ldc = (struct load_command *)(header + 1);
-	scmd = NULL;
-	i = 0;
-
-	// ft_printf("nb: %u\n", header->ncmds);
-	while (i++ < header->ncmds)
-	{
-		// ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
-		if (ldc->cmd == LC_SYMTAB)
-		{
-			scmd = (struct symtab_command *)ldc;
-			// ft_printf("FOUND %d %d %d\n", scmd->symoff, scmd->stroff, scmd->nsyms);
-			read_sym_table((struct nlist_64 *)(ptr + scmd->symoff), ptr + scmd->stroff, scmd->nsyms);
-			break ;
-		}
-		ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
-	}
-}
 
 void	nm(void *file_map)
 {
@@ -104,6 +71,8 @@ int	handle_file(char *file_name)
 int	main(int ac, char **av)
 {
 	int i;
+
+	ft_printf("%d\n", ft_strcmp("__mh_execute_header", "___assert_rtn"));
 
 	i = 1;
 	if (ac == 1)
