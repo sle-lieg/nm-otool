@@ -6,11 +6,13 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/13 20:03:42 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/14 16:22:10 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
+
+int flags;
 
 void	nm(void *file_map)
 {
@@ -44,7 +46,7 @@ int	handle_error(int code_error, char *file)
 	else if (code_error == ERR_IS_DIR)
 		ft_printf("%s/nm: %s: Is a directory.\n", bin_path, file);
 	else if (code_error == ERR_MMAP)
-		ft_printf("%s/nm: %s: An error occured while mapping the file.\n", bin_path, file);
+		ft_printf("%s/nm: %s: MMAP error.\n", bin_path, file);
 	return (code_error);
 }
 
@@ -60,7 +62,8 @@ int	handle_file(char *file_name)
 		return (handle_error(ERR_FSTAT, file_name));
 	if ((buf.st_mode & S_IFMT) == S_IFDIR)
 		return (handle_error(ERR_IS_DIR, file_name));
-	if ((ptr = mmap(NULL, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
+	if ((ptr = mmap(NULL, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) \
+		== MAP_FAILED)
 		return (handle_error(ERR_MMAP, file_name));
 	nm(ptr);
 	munmap(ptr, buf.st_size);
@@ -68,17 +71,43 @@ int	handle_file(char *file_name)
 	return (0);
 }
 
+void	get_option(char *option)
+{
+	static char *match_flag[3] = {"-r"};
+	const size_t len = 1;
+	int i;
+
+	i = 0;
+	while (i < len)
+	{
+		if (!ft_strcmp(option, match_flag[i]))
+		{
+			flags ^= O_REV;
+			
+		}
+	}
+	// ft_printf("option: %s\n", option);
+}
+
+static int	is_option(char *arg)
+{
+	return (*arg == '-' && (ft_strcmp(arg, "--") != 0));
+}
+
 int	main(int ac, char **av)
 {
 	int i;
 
-	ft_printf("%d\n", ft_strcmp("__mh_execute_header", "___assert_rtn"));
+	i = 0;
+	while (++i < ac && is_option(av[i]))
+		get_option(av[i]);
 
-	i = 1;
-	if (ac == 1)
+	if (i == ac)
 		handle_file("a.out");
 	else
 	{
+		if (!ft_strcmp(av[i], "--"))
+			++i;
 		while (i < ac)
 			handle_file(av[i++]);
 	}

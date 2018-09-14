@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/13 18:42:53 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/14 16:00:21 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # include "ft_printf.h"
 
 #include <assert.h>
+
+#define O_REV 0x1 // option -r
+
+extern int flags;
 
 enum			e_errors {
 	ERR_FILE_NAME = -4,

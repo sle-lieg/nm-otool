@@ -6,14 +6,14 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:45 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/13 19:41:09 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/14 12:03:40 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
 /**
- * @brief	
+ * @brief	read all symbols in the symbol_table and add create a t_sym_list *
  * @param  *ptr:			ptr to the symbol table
  * @param  *str_table:	ptr to the string table
  * @param  nb_sym:		number of symbols
@@ -21,36 +21,25 @@
 void	read_sym_table(struct nlist_64 *ptr, char *str_table, int nb_sym) // add strsize, the size of string table to check if the file is valid
 {
 	t_sym_list	*head;
-	int i;
 
-	i = 0;
-	// if ((head = (t_sym_list*)malloc(sizeof(*head))))
-	// 	exit(EXIT_FAILURE);
-	// head->ptr = ptr;
-	// head->next = NULL;
-	(void)str_table;
 	head = new_nlist(ptr);
-	// print_list(head, str_table);
 	while (--nb_sym)
 	{
 		++ptr;
 		insert_nlist(&head, ptr, str_table);
-		// i = ptr->n_un.n_strx;
-		// if (i != 0)
-		// 	ft_printf("%s\n", str_table + i);
-		// else
-			// ft_printf("FUCK\n");
 	}
 	print_list(head, str_table);
 }
 
+/*
+** @note		handle mach-o little endian 64 bits binary
+** @param	*ptr: start of the file mapping
+*/
 void	handle_64(char *ptr)
 {
 	struct mach_header_64	*header;
 	struct load_command		*ldc;
 	struct symtab_command	*scmd;
-	// struct segment_command_64 *ldc;
-	// uint32_t						ncmds;
 	uint32_t						i;
 
 	header = (struct mach_header_64 *)ptr;

@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:28:43 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/13 20:32:24 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/14 12:04:39 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ t_sym_list	*new_nlist(struct nlist_64 *nlist)
 
 // MAKE IT GENERIC OR COPY FOR EACH TYPE (nlist_32, nlist_64)
 /*
-** Insertion sort by increasing order n_strx(idx of the sym in the symbol table)
-** if (head->idx > nlist->idx) : add it to the front
-** else : move forward in the list until list->next->idx is > than nlist->idx,
-** and then insert it between list and list->next
+** Insertion sort by alphabetical symbol order
 ** @param  **head:		start of the t_sym_list that holds nlist_64 struct
 ** @param  *nlist:		struct nlist_64 to add to the list
 ** @param  *str_table:	string table
@@ -43,24 +40,21 @@ void	insert_nlist(t_sym_list **head, struct nlist_64 *nlist, char *str_table)
 
 	assert(nlist->n_un.n_strx != 0);
 
-	ft_printf("to insert: %s\n", str_table + nlist->n_un.n_strx);
 	if (ft_strcmp(str_table + (*head)->ptr->n_un.n_strx, str_table + nlist->n_un.n_strx) > 0)
 	{
-		ft_printf("	check head: %s\n",  str_table + (*head)->ptr->n_un.n_strx);
 		*head = new;
 		(*head)->next = tmp;
 	}
 	else
 	{
-		while (tmp->next && (ft_strcmp(str_table + tmp->next->ptr->n_un.n_strx, str_table + nlist->n_un.n_strx) < 0))
+		while (tmp->next &&
+		(ft_strcmp(str_table + tmp->next->ptr->n_un.n_strx, str_table + nlist->n_un.n_strx) < 0))
 		{
 			tmp = tmp->next;
 		}
 		new->next = tmp->next;
 		tmp->next = new;
 	}
-	ft_printf("LIST:\n");
-	print_list(*head, str_table);
 }
 
 void	print_list(t_sym_list *tmp, char *str_table)
