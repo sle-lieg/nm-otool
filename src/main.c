@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/14 16:22:10 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:00:19 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,18 @@ int	handle_file(char *file_name)
 
 void	get_option(char *option)
 {
-	static char *match_flag[3] = {"-r"};
-	const size_t len = 1;
-	int i;
+	static char		*match_flag[3] = {"-r"};
+	const size_t	len = 1;
+	size_t			i;
 
 	i = 0;
 	while (i < len)
 	{
 		if (!ft_strcmp(option, match_flag[i]))
-		{
-			flags ^= O_REV;
-			
-		}
+			flags ^= i+1;
+		i++;
 	}
-	// ft_printf("option: %s\n", option);
+	ft_printf("option: %d\n", flags);
 }
 
 static int	is_option(char *arg)
@@ -96,7 +94,7 @@ static int	is_option(char *arg)
 
 int	main(int ac, char **av)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	while (++i < ac && is_option(av[i]))
