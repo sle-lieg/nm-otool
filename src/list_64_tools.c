@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:28:43 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/17 16:42:42 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/17 18:32:32 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,38 @@ void	insert_nlist64(t_file_map *file, struct nlist_64 *nlist)
 
 static char get_segment_type(t_file_map *file, struct nlist_64 *ptr)
 {
-	(void)file;
-	(void)ptr;
-	return ('T');
+	struct load_command	*tmp;
+	struct section_64 *target;
+	int tot_sects;
+	int nb_cmds;
+
+	tmp = file->ld_cmd;
+	tot_sects = 0;
+	nb_cmds = file->header->ncmds;
+	while (nb_cmds--)
+	{
+		if (tmp->cmd == LC_SEGMENT_64)
+		{
+			if (tot_sects + ((struct segment_command_64 *)tmp)->nsects < ptr->n_sect)
+			{
+				target = (struct section_64 *)(((struct segment_command_64 *)tmp)+1);
+				// target = ((struct section_64 *)((struct segment_command_64 *)tmp+1))[ptr->n_sect - tot_sects - 1];
+				ft_printf("TARGET: SECTNAME=%s	SEGNAME=%s\n", target->sectname, target->sectname);
+				// ft_printf("TARGET= %s vs %s\n", target.sectname, SECT_TEXT);
+				// if (!ft_strncmp(target.sectname, SECT_TEXT, ft_strlen(SECT_TEXT)))
+				// 	return 'T';
+				// if (!ft_strcmp(target.sectname, SECT_DATA))
+				// 	return 'D';
+				// if (!ft_strcmp(target.sectname, SECT_BSS))
+				// 	return 'B';
+				// if (!ft_strcmp(target.sectname, SECT_COMMON))
+				// 	return 'C';
+			}
+			tot_sects += ((struct segment_command_64 *)tmp)->nsects;
+		}
+		tmp = (void*)((char *)tmp + tmp->cmdsize);
+	}
+	return ('S');
 }
 
 static void	print_type(t_file_map *file, struct nlist_64 *ptr)
