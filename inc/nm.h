@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/17 16:06:20 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:43:22 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/mman.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 # include <mach-o/fat.h>
@@ -26,15 +27,17 @@
 
 #include <assert.h>
 
+#define OPTIONS "rlap"
 #define O_REV 0x1 // option -r
 
 extern int flags;
 
 enum			e_errors {
-	ERR_FILE_NAME = -4,
+	ERR_FILE_NAME = -5,
 	ERR_FSTAT,
 	ERR_IS_DIR,
-	ERR_MMAP
+	ERR_MMAP,
+	ERR_OPTION
 };
 
 /*
@@ -63,6 +66,7 @@ typedef struct	s_segm_cmd_64_list
 */
 typedef struct	s_file_map
 {
+	// struct mach_header		*header;				// header of the file
 	struct mach_header_64	*header;				// header of the file
 	struct load_command		*ld_cmd;				// 1st load_command
 	struct symtab_command	*sym_cmd;			// LC_SYMTAB load_command structure

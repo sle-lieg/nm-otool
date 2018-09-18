@@ -36,8 +36,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@rm -f $(OBJ) $(DEP)
+	@make clean -C $(LIB_DIR)
 
 fclean: clean
 	@rm -f $(NM) $(OTOOL)
+	@make fclean -C $(LIB_DIR)
 
 re: fclean all

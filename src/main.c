@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/17 16:00:19 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/18 18:44:07 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ int	handle_error(int code_error, char *file)
 
 	getcwd(bin_path, 255);
 	if (code_error == ERR_FILE_NAME)
-		ft_printf("%s/nm: %s: No such file or directory.\n", bin_path, file);
+	{
+		if (errno == EACCES)
+			ft_printf("%s/nm: %s: Permission denied.\n", bin_path, file);
+		else
+			ft_printf("%s/nm: %s: No such file or directory.\n", bin_path, file);
+	}
 	else if (code_error == ERR_FSTAT)
 		ft_printf("%s/nm: %s: An error occured with fstat.\n", bin_path);
 	else if (code_error == ERR_IS_DIR)
@@ -71,20 +76,23 @@ int	handle_file(char *file_name)
 	return (0);
 }
 
-void	get_option(char *option)
+int	get_option(char *option)
 {
-	static char		*match_flag[3] = {"-r"};
-	const size_t	len = 1;
-	size_t			i;
+	static char		*match_flag = OPTIONS;
+	int				i;
 
 	i = 0;
-	while (i < len)
+	while (*option == '-')
+		option++;
+	while (*option)
 	{
-		if (!ft_strcmp(option, match_flag[i]))
-			flags ^= i+1;
-		i++;
+		if ((i = ft_strichr(match_flag, *option++)) >= 0)
+			flags |= (1 << i);
+		else
+			return (ERR_OPTION);
 	}
-	ft_printf("option: %d\n", flags);
+	ft_printf("option: %b\n", flags);
+	return (0);
 }
 
 static int	is_option(char *arg)
@@ -98,8 +106,13 @@ int	main(int ac, char **av)
 
 	i = 0;
 	while (++i < ac && is_option(av[i]))
-		get_option(av[i]);
-
+	{
+		if (get_option(av[i]) == ERR_OPTION)
+		{
+			ft_printf("nm: Unknown command line argument '%s'.", av[i]);
+			exit(EXIT_FAILURE);
+		}
+	}
 	if (i == ac)
 		handle_file("a.out");
 	else

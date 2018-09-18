@@ -1,48 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mach_o_64.c                                        :+:      :+:    :+:   */
+/*   mach_o_32.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/13 14:24:45 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/18 14:58:48 by sle-lieg         ###   ########.fr       */
+/*   Created: 2018/09/18 14:59:05 by sle-lieg          #+#    #+#             */
+/*   Updated: 2018/09/18 15:03:19 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-/**
- * @brief	read all symbols in the symbol_table and create a t_sym_list *
- * @param  *file:	ptr to the file structure
- */
-void	read_sym_table(t_file_map *file) // add strsize, the size of string table to check if the file is valid
-{
-	struct nlist_64 *ptr;
-	int nb_sym;
-
-	nb_sym = file->sym_cmd->nsyms;
-	ptr = (struct nlist_64 *)((char*)file->header + file->sym_cmd->symoff);
-	file->symboles = new_nlist64(ptr);
-	while (--nb_sym)
-	{
-		++ptr;
-		insert_nlist64(file, ptr);
-	}
-	print_list(file);
-}
-
-/*
-** @note		handle mach-o little endian 64 bits binary
-** @param	*ptr: start of the file mapping
-*/
-void	handle_64(char *ptr)
+void	handle_32(char *ptr)
 {
 	t_file_map					file;
 	struct load_command		*ldc;
 	uint32_t						i;
 
-	file.header = (struct mach_header_64 *)ptr;
+	file.header = (struct mach_header *)ptr;
 	file.ld_cmd = (struct load_command *)(file.header + 1);
 	ldc = file.ld_cmd;
 	i = 0;
@@ -57,5 +33,4 @@ void	handle_64(char *ptr)
 	}
 	file.str_table = ptr + file.sym_cmd->stroff;
 	read_sym_table(&file);
-	// read_sym_table((struct nlist_64 *)(ptr + scmd->symoff), ptr + scmd->stroff, scmd->nsyms);
 }

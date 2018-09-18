@@ -37,7 +37,7 @@ SRC_FILES_LIBFT = \
 	ft_lstdelone.c ft_lstdel.c ft_lstadd.c	ft_lstiter.c\
 	ft_lstmap.c ft_lstaddend.c ft_d_lstaddfront.c ft_d_lstaddend.c\
 	ft_d_lstdel.c ft_d_lstdelone.c ft_switchchar.c ft_count_n.c\
-	ft_pow.c ft_itoa_base.c ft_wchar_len.c ft_wstr_len.c
+	ft_pow.c ft_itoa_base.c ft_wchar_len.c ft_wstr_len.c ft_strichr.c
 
 SRC_DIR_PRINTF = ./src/
 SRC_DIR_LIBFT	=	./libft/
