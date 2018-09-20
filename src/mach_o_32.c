@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 14:59:05 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/18 15:03:19 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/20 11:03:14 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_32(char *ptr)
 {
-	t_file_map					file;
+	t_file_64					file;
 	struct load_command		*ldc;
 	uint32_t						i;
 

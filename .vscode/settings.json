@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"nm.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"assert.h": "c"
 	}
 }

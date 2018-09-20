@@ -6,48 +6,14 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/20 06:59:14 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/20 19:17:37 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-int flags;
-
-// void	nm(void *file_map)
-// {
-// 	uint32_t magic_number;
-
-// 	magic_number = *(int *)file_map;
-// 	if (magic_number == MH_MAGIC_64)
-// 		handle_64(file_map);
-// 	// else if (magic_number == MH_CIGAM_64)
-// 	// 	eldnah_64(file_map);
-// 	// else if (magic_number == MH_MAGIC)
-// 	// 	handle_32(file_map);
-// 	// else if (magic_number == MH_CIGAM)
-// 	// 	eldnah_32(file_map);
-// 	// else if (magic_number == FAT_MAGIC)
-// 	// 	ft_printf("fat binary detected\n");
-// 	// else if (magic_number == FAT_CIGAM)
-// 	// 	ft_printf("fat binary detected\n");
-// 	ft_printf("magic_number = %x\n\n", magic_number);
-// }
-
-// char *btol(void *data, size_t size)
-// {
-// 	static char ret[4];
-// 	size_t i;
-
-// 	i = 0;
-// 	*(int*)ret = 0;
-// 	while (i < size)
-// 	{
-// 		ret[size-i-1] = ((char*)data)[i];
-// 		i++;
-// 	}
-// 	return (ret);
-// }
+int	g_flags;
+char	*g_filename;
 
 uint64_t bendtolend(void *data, size_t size)
 {
@@ -60,7 +26,6 @@ uint64_t bendtolend(void *data, size_t size)
 		ret = (ret << 8) + *ptr++;
 	return (ret);
 }
-
 
 // TODO: add tab to funtion ptr for parsers
 void	nm(void *file_mmap)
@@ -76,7 +41,7 @@ void	nm(void *file_mmap)
 	if (magic_number == MH_MAGIC_64)
 		parse_l64(file_mmap);
 	else if (magic_number == MH_CIGAM_64)
-		parse_b64(file_mmap)
+		parse_b64(file_mmap);
 	else if (magic_number == MH_MAGIC)
 		parse_l32(file_mmap);
 	else if (magic_number == MH_CIGAM)
@@ -91,35 +56,8 @@ void	nm(void *file_mmap)
 			nm((char*)file_mmap + offset);
 		}
 	}
-	ft_printf("magic_number = %x\n\n", magic_number);
+	// ft_printf("magic_number = %x\n\n", magic_number);
 }
-
-// void	nm(void *file_map)
-// {
-// 	t_fat_arch *arch;
-// 	uint32_t magic_number;
-// 	uint32_t	nb_arch;
-// 	uint32_t	offset;
-// 	size_t i;
-
-// 	magic_number = *(int *)file_map;
-// 	i = 0;
-// 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
-// 		parse_64(file_map);
-// 	// else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
-// 	// 	parse_32(file_map);
-// 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
-// 	{
-// 		nb_arch = bendtolend(&((struct fat_header*)file_map)->nfat_arch, sizeof(uint32_t));
-// 		while (i < nb_arch)
-// 		{
-// 			arch = &((struct fat_arch *)((char*)file_map + sizeof(struct fat_header)))[i++];
-// 			offset = bendtolend(&arch->offset, sizeof(uint32_t));
-// 			nm((char*)file_map + offset);
-// 		}
-// 	}
-// 	ft_printf("magic_number = %x\n\n", magic_number);
-// }
 
 int	handle_error(int code_error, char *file)
 {
@@ -148,6 +86,7 @@ int	handle_file(char *file_name)
 	int			fd;
 	void			*ptr;
 
+	g_filename = file_name;
 	if ((fd = open(file_name, O_RDONLY)) < 0)
 		return (handle_error(ERR_FILE_NAME, file_name));
 	if (fstat(fd, &buf) < 0)
@@ -174,11 +113,10 @@ int	get_option(char *option)
 	while (*option)
 	{
 		if ((i = ft_strichr(match_flag, *option++)) >= 0)
-			flags |= (1 << i);
+			g_flags |= (1 << i);
 		else
 			return (ERR_OPTION);
 	}
-	ft_printf("option: %b\n", flags);
 	return (0);
 }
 
