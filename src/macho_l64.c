@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mach_o_64.c                                        :+:      :+:    :+:   */
+/*   macho_l64.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:45 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/18 14:58:48 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/20 07:22:37 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,15 @@
  */
 void	read_sym_table(t_file_map *file) // add strsize, the size of string table to check if the file is valid
 {
-	struct nlist_64 *ptr;
+	t_nlist64 *ptr;
 	int nb_sym;
 
 	nb_sym = file->sym_cmd->nsyms;
-	ptr = (struct nlist_64 *)((char*)file->header + file->sym_cmd->symoff);
-	file->symboles = new_nlist64(ptr);
+	ptr = (t_nlist64 *)((char*)file->header64 + file->sym_cmd->symoff);
+	file->symboles = new_nlist(ptr);
 	while (--nb_sym)
 	{
-		++ptr;
-		insert_nlist64(file, ptr);
+		insert_nlist(file, ++ptr);
 	}
 	print_list(file);
 }
@@ -36,23 +35,23 @@ void	read_sym_table(t_file_map *file) // add strsize, the size of string table t
 ** @note		handle mach-o little endian 64 bits binary
 ** @param	*ptr: start of the file mapping
 */
-void	handle_64(char *ptr)
+void	parse_l64(char *ptr)
 {
-	t_file_map					file;
-	struct load_command		*ldc;
-	uint32_t						i;
+	t_file	file;
+	t_load_cmd	*ldc;
+	uint32_t		i;
 
-	file.header = (struct mach_header_64 *)ptr;
-	file.ld_cmd = (struct load_command *)(file.header + 1);
+	file.header64 = (t_mach_h64 *)ptr;
+	file.ld_cmd = (t_load_cmd *)(file.header + 1);
 	ldc = file.ld_cmd;
 	i = 0;
-	while (i++ < file.header->ncmds)
+	while (i++ < file.header64->ncmds)
 	{
 		// ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
 		// if (ldc->cmd == LC_SEGMENT_64)
 		// 	add_segment_cmd_64(file, ldc);
 		if (ldc->cmd == LC_SYMTAB)
-			file.sym_cmd = (struct symtab_command *)ldc;
+			file.sym_cmd = (t_symtab_cmd *)ldc;
 		ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
 	}
 	file.str_table = ptr + file.sym_cmd->stroff;

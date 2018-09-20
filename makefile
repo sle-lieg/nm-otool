@@ -11,7 +11,7 @@ DEP_DIR = dep/
 
 LIBFT = $(LIB_DIR)libftprintf.a
 
-SRC_F = main.c mach_o_64.c list_64_tools.c
+SRC_F = main.c macho_l64.c macho_b64.c macho_l32.c macho_b32.c list_64_tools.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_F))
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

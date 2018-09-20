@@ -2,5 +2,5 @@
 Todo:
 	✔ Error checks @done(18-09-18 15:21)
 	✔ Map the file in memory @done(18-09-18 15:21)
-	☐ check the magic number
-	☐ 
+	☐ check the magic number and set the endianness
+	☐ parse the file and get
