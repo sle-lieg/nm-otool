@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   l64_symboles_parsing.c                             :+:      :+:    :+:   */
+/*   l32_read_symboles.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/13 14:28:43 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 11:58:08 by sle-lieg         ###   ########.fr       */
+/*   Created: 2018/09/25 13:30:21 by sle-lieg          #+#    #+#             */
+/*   Updated: 2018/09/25 17:11:06 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-static t_nlist64_list *find_insert64(t_nlist64_list *tmp, char *new_sym, char *str_table)
+t_nlist_list	*create_new_nlist(t_nlist *nlist)
+{
+	t_nlist_list *new;
+
+	if (!(new = (t_nlist_list*)malloc(sizeof(*new))))
+		exit(EXIT_FAILURE);
+	new->symbole = nlist;
+	new->next = NULL;
+	return (new);
+}
+
+static t_nlist_list *find_insert(t_nlist_list *tmp, char *new_sym, char *str_table)
 {
 	char *cur_sym;
 
@@ -26,14 +37,14 @@ static t_nlist64_list *find_insert64(t_nlist64_list *tmp, char *new_sym, char *s
 	return (tmp);
 }
 
-static void	insert_nlist64(t_file_64 *file, t_nlist_64 *nlist)
+static void	insert_nlist(t_file *file, t_nlist *nlist)
 {
-	t_nlist64_list	*tmp;
-	t_nlist64_list	*new;
+	t_nlist_list	*tmp;
+	t_nlist_list	*new;
 	char				*name;
 
 	tmp = file->symboles;
-	new = create_new_nlist64(nlist);
+	new = create_new_nlist(nlist);
 	name = file->str_table + nlist->n_un.n_strx;
 	if (ft_strcmp(file->str_table + tmp->symbole->n_un.n_strx, name) > 0)
 	{
@@ -48,36 +59,21 @@ static void	insert_nlist64(t_file_64 *file, t_nlist_64 *nlist)
 	}
 }
 
-static t_nlist64_list	*create_new_nlist64(t_nlist_64 *nlist)
+void	read_sym_table(t_file *file) // add strsize, the size of string table to check if the file is valid
 {
-	t_nlist64_list *new;
-
-	if (!(new = (t_nlist64_list*)malloc(sizeof(*new))))
-		exit(EXIT_FAILURE);
-	new->symbole = nlist;
-	new->next = NULL;
-	return (new);
-}
-
-/**
- * @brief	read all symbols in the symbol_table and create a t_sym_list *
- * @param  *file:	ptr to the file structure
- */
-void	read_sym_table(t_file_64 *file) // add strsize, the size of string table to check if the file is valid
-{
-	t_nlist_64		*ptr;
-	t_nlist64_list *last;
+	t_nlist		*ptr;
+	t_nlist_list *last;
 	int nb_sym;
 
 	nb_sym = file->symtab_cmd->nsyms;
-	ptr = (t_nlist_64 *)((char*)file->header + file->symtab_cmd->symoff);
-	file->symboles = create_new_nlist64(ptr);
+	ptr = (t_nlist *)((char*)file->header + file->symtab_cmd->symoff);
+	file->symboles = create_new_nlist(ptr);
 	last = file->symboles;
 	while (--nb_sym)
 	{
 		if (g_flags & O_UNS)
 		{
-			last->next = create_new_nlist64(++ptr);
+			last->next = create_new_nlist(++ptr);
 			last = last->next;
 		}
 		else

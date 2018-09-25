@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 11:58:41 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 18:06:12 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #define O_DEF 0x20 // option -U
 
 extern int	g_flags;
+extern int	g_little_endian;
 extern char	*g_filename;
-// extern char stab_types[255][8];
 
 typedef struct fat_arch t_fat_arch;
 typedef struct load_command t_load_cmd;
@@ -78,7 +78,7 @@ typedef struct	s_nlist64_list
 */
 typedef struct	s_section_list
 {
-	t_section					*ptr;
+	t_section					*sect;
 	struct s_section_list	*next;
 }				t_section_list;
 
@@ -95,7 +95,7 @@ typedef struct	s_section64_list
 typedef struct	s_segment_list
 {
 	t_segment					*seg;
-	t_section_list				sections;
+	t_section_list				*sections;
 	struct s_segment_list	*next;
 }				t_segment_list;
 
@@ -132,43 +132,80 @@ typedef struct	s_file_64
 	char	*str_table;		// start of the symboles
 }				t_file_64;
 
-
-
-uint64_t bendtolend(void *data, size_t size);
+/*
+**	macho_l64.c
+*/
+void	nm(void *file_mmap);
 
 /*
 **	macho_l64.c
 */
-void			parse_l64(char *ptr);
-void			read_sym_table(t_file_64 *file);
+void	parse_little_endian_64(char *ptr);
 
 /*
-**	l64_symboles_parsing.c
+**	l64_read_symboles.c
 */
-void	read_sym_table(t_file_64 *file);
+void	read_sym_table_64(t_file_64 *file);
 
 /*
-**	l64_display.c
+**	l64_print_symboles.c
 */
+void	print_list_64(t_file_64 *file, t_nlist64_list *elem);
 
 /*
 **	macho_b64.c
 */
-void			parse_b64(char *ptr);
+void	parse_big_endian_64(char *ptr);
+
+/*
+**	b64_read_symboles.c
+*/
+// void	read_sym_table(t_file_64 *file);
+
+/*
+**	b64_print_symboles.c
+*/
 
 /*
 **	macho_l32.c
 */
-void			parse_l32(char *ptr);
+void	parse_little_endian_32(char *ptr);
+t_segment_list *create_new_seg_32(t_segment *segment);
+
+/*
+**	l32_read_symboles.c
+*/
+void	read_sym_table(t_file *file);
+t_nlist_list	*create_new_nlist(t_nlist *nlist);
+
+/*
+**	l32_print_symboles.c
+*/
+void	print_list(t_file *file, t_nlist_list *elem);
 
 /*
 **	macho_b32.c
 */
-void			parse_b32(char *ptr);
+void	parse_big_endian_32(char *ptr);
+
+/*
+**	b32_read_symboles.c
+*/
+void	read_sym_table_b(t_file *file);
+
+/*
+**	b32_print_symboles.c
+*/
+void	print_list_big(t_file *file, t_nlist_list *elem);
 
 /*
 **	list_64_tools.c
 */
-char *get_stab_type(uint8_t type);
+
+/*
+**	fat.c
+*/
+void	parse_FAT(void *file_mmap);
+uint64_t get(void *data, size_t size);
 
 #endif

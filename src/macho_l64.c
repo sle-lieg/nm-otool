@@ -6,13 +6,13 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:45 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 11:57:15 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 17:08:40 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-static t_segment64_list *create_new_seg64(t_segment_64 *segment)
+static t_segment64_list *create_new_seg(t_segment_64 *segment)
 {
 	t_segment64_list *new;
 
@@ -47,16 +47,16 @@ static void	add_sections(t_segment64_list *elem, t_section_64 *section)
 	}
 }
 
-static void	add_segment_64(t_file_64 *file, t_segment_64 *seg)
+static void	add_segment(t_file_64 *file, t_segment_64 *seg)
 {
 	t_segment64_list	*tmp;
 	t_segment64_list	*new;
 
 	tmp = file->segments;
-	new = create_new_seg64(seg);
+	new = create_new_seg(seg);
 	if (seg->nsects > 0)
 		add_sections(new, (t_section_64*)(seg + 1));
-	if (!file->segments)
+	if (!tmp)
 		file->segments = new;
 	else
 	{
@@ -70,26 +70,30 @@ static void	add_segment_64(t_file_64 *file, t_segment_64 *seg)
 ** @note		handle mach-o little endian 64 bits binary
 ** @param	*ptr: start of the file mapping
 */
-void	parse_l64(char *ptr)
+void	parse_little_endian_64(char *ptr)
 {
+	ft_printf("PARSE LITTLE 64\n");
+
 	t_file_64	file;
 	t_load_cmd	*ldc;
 	uint32_t		i;
 
+	file = (t_file_64){NULL, NULL, NULL, NULL, NULL, NULL};
 	file.header = (t_mach_h_64 *)ptr;
 	file.ld_cmd = (t_load_cmd *)(file.header + 1);
+	// file.segments = NULL;
 	ldc = file.ld_cmd;
 	i = 0;
 	while (i++ < file.header->ncmds)
 	{
 		// ft_printf("ldc[%p]: type=%u size=%u\n", ldc, ldc->cmd, ldc->cmdsize);
 		if (ldc->cmd == LC_SEGMENT_64)
-			add_segment_64(&file, (t_segment_64*)ldc);
+			add_segment(&file, (t_segment_64*)ldc);
 		if (ldc->cmd == LC_SYMTAB)
 			file.symtab_cmd = (t_symtab_cmd *)ldc;
 		ldc = (struct load_command *)((char*)ldc + ldc->cmdsize);
 	}
 	file.str_table = ptr + file.symtab_cmd->stroff;
-	read_sym_table(&file);
+	read_sym_table_64(&file);
 	// read_sym_table((struct nlist_64 *)(ptr + scmd->symoff), ptr + scmd->stroff, scmd->nsyms);
 }

@@ -1,7 +1,7 @@
 NM = ft_nm
 OTOOL = ft_otool
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -11,7 +11,12 @@ DEP_DIR = dep/
 
 LIBFT = $(LIB_DIR)libftprintf.a
 
-SRC_F = main.c macho_l64.c macho_b64.c macho_l32.c macho_b32.c list_64_tools.c
+SRC_F =	main.c macho_l64.c l64_read_symboles.c l64_print_symboles.c \
+			macho_l32.c l32_read_symboles.c l32_print_symboles.c \
+			macho_b32.c b32_read_symboles.c b32_print_symboles.c \
+			macho_b64.c fat.c
+#			macho_b64.c b64_read_symboles.c b64_print_symboles.c \
+			fat.c list_64_tools.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_F))
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

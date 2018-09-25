@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   l64_display.c                                      :+:      :+:    :+:   */
+/*   l64_print_symboles.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 11:55:05 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 11:56:43 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 14:01:35 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm.h"
 
-// char	get_segment_type(t_segment64_list *seg, t_nlist_64 *nlist)
 static char	get_segment_type(t_segment64_list *node, uint32_t n_sect)
 {
 	while (n_sect > node->seg->nsects)
@@ -53,7 +52,7 @@ static void	print_type(t_file_64 *file, t_nlist_64 *nlist)
 	ft_printf("%c ", type_c);
 }
 
-static void	display_data64(t_file_64 *file, t_nlist_64 *nlist)
+static void	display_data(t_file_64 *file, t_nlist_64 *nlist)
 {
 	if (nlist->n_type & N_STAB)
 		return;
@@ -64,23 +63,21 @@ static void	display_data64(t_file_64 *file, t_nlist_64 *nlist)
 	else
 		ft_printf("                 ");
 	print_type(file, nlist);
-	if (g_flags & O_ALL && (nlist->n_type & N_STAB))
-		ft_printf("%02x %04x %5s ", nlist->n_sect, nlist->n_desc, get_stab_type(nlist->n_type));
 	ft_printf("%s\n", file->str_table + nlist->n_un.n_strx);
 }
 
-void	print_list64(t_file_64 *file, t_nlist64_list *elem)
+void	print_list_64(t_file_64 *file, t_nlist64_list *elem)
 {
 	if (elem)
 	{
 		if (!(g_flags & O_REV))
 		{
 			display_data(file, elem->symbole);
-			print_list(file, elem->next);
+			print_list_64(file, elem->next);
 		}
 		else
 		{
-			print_list(file, elem->next);
+			print_list_64(file, elem->next);
 			display_data(file, elem->symbole);
 		}
 	}
