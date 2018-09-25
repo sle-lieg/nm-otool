@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 18:06:12 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 19:36:26 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,74 +133,39 @@ typedef struct	s_file_64
 }				t_file_64;
 
 /*
-**	macho_l64.c
+**	main.c
 */
 void	nm(void *file_mmap);
 
 /*
-**	macho_l64.c
+**	macho_64.c
 */
-void	parse_little_endian_64(char *ptr);
+void	parse_64(char *ptr);
 
 /*
-**	l64_read_symboles.c
+**	read_symboles_64.c
 */
 void	read_sym_table_64(t_file_64 *file);
 
 /*
-**	l64_print_symboles.c
+**	print_symboles_64.c
 */
 void	print_list_64(t_file_64 *file, t_nlist64_list *elem);
 
 /*
-**	macho_b64.c
+**	macho_32.c
 */
-void	parse_big_endian_64(char *ptr);
+void	parse_32(char *ptr);
 
 /*
-**	b64_read_symboles.c
-*/
-// void	read_sym_table(t_file_64 *file);
-
-/*
-**	b64_print_symboles.c
-*/
-
-/*
-**	macho_l32.c
-*/
-void	parse_little_endian_32(char *ptr);
-t_segment_list *create_new_seg_32(t_segment *segment);
-
-/*
-**	l32_read_symboles.c
+**	read_symboles_32.c
 */
 void	read_sym_table(t_file *file);
-t_nlist_list	*create_new_nlist(t_nlist *nlist);
 
 /*
-**	l32_print_symboles.c
+**	print_symboles_32.c
 */
 void	print_list(t_file *file, t_nlist_list *elem);
-
-/*
-**	macho_b32.c
-*/
-void	parse_big_endian_32(char *ptr);
-
-/*
-**	b32_read_symboles.c
-*/
-void	read_sym_table_b(t_file *file);
-
-/*
-**	b32_print_symboles.c
-*/
-void	print_list_big(t_file *file, t_nlist_list *elem);
-
-/*
-**	list_64_tools.c
-*/
 
 /*
 **	fat.c

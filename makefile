@@ -11,12 +11,10 @@ DEP_DIR = dep/
 
 LIBFT = $(LIB_DIR)libftprintf.a
 
-SRC_F =	main.c macho_l64.c l64_read_symboles.c l64_print_symboles.c \
-			macho_l32.c l32_read_symboles.c l32_print_symboles.c \
-			macho_b32.c b32_read_symboles.c b32_print_symboles.c \
-			macho_b64.c fat.c
-#			macho_b64.c b64_read_symboles.c b64_print_symboles.c \
-			fat.c list_64_tools.c
+SRC_F =	main.c \
+			macho_32.c read_symboles_32.c print_symboles_32.c \
+			macho_64.c read_symboles_64.c print_symboles_64.c \
+			fat.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_F))
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

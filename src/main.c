@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 18:08:02 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 19:44:06 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,25 @@ char	*g_filename;
 // 	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
 // 	// 	parse_archive(file_mmap);
 // 	if (magic_number == MH_MAGIC_64)
-// 		parse_little_endian_64(file_mmap);
-// 	else if (magic_number == MH_CIGAM_64)
+// 	{
+// 		g_little_endian = TRUE;
 // 		parse_big_endian_64(file_mmap);
+// 	}
+// 	else if (magic_number == MH_CIGAM_64)
+// 	{
+// 		g_little_endian = FALSE;
+// 		parse_big_endian_64(file_mmap);
+// 	}
 // 	else if (magic_number == MH_MAGIC)
-// 		parse_little_endian_32(file_mmap);
-// 	else if (magic_number == MH_CIGAM)
+// 	{
+// 		g_little_endian = TRUE;
 // 		parse_big_endian_32(file_mmap);
+// 	}
+// 	else if (magic_number == MH_CIGAM)
+// 	{
+// 		g_little_endian = FALSE;
+// 		parse_big_endian_32(file_mmap);
+// 	}
 // 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
 // 		parse_FAT(file_mmap);
 // 	// ft_printf("magic_number = %x\n\n", magic_number);
@@ -42,31 +54,24 @@ void	nm(void *file_mmap)
 	uint32_t magic_number;
 
 	magic_number = *(int *)file_mmap;
+	ft_printf("magic_number = %x\n", magic_number);
 	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
 	// 	parse_archive(file_mmap);
-	if (magic_number == MH_MAGIC_64)
+	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
-		g_little_endian = TRUE;
-		parse_little_endian_64(file_mmap);
+		g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
+		parse_64(file_mmap);
 	}
-	else if (magic_number == MH_CIGAM_64)
+	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
-		g_little_endian = FALSE;
-		parse_big_endian_64(file_mmap);
-	}
-	else if (magic_number == MH_MAGIC)
-	{
-		g_little_endian = TRUE;
-		parse_big_endian_32(file_mmap);
-	}
-	else if (magic_number == MH_CIGAM)
-	{
-		g_little_endian = FALSE;
-		parse_big_endian_32(file_mmap);
+		g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
+		parse_32(file_mmap);
 	}
 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
+	{
+		g_little_endian = FALSE;
 		parse_FAT(file_mmap);
-	// ft_printf("magic_number = %x\n\n", magic_number);
+	}
 }
 
 static int	handle_error(int code_error, char *file)
@@ -150,7 +155,10 @@ int	main(int ac, char **av)
 		if (!ft_strcmp(av[i], "--"))
 			++i;
 		while (i < ac)
+		{
+			ft_printf("\n%s:\n", av[i]);
 			handle_file(av[i++]);
+		}
 	}
 	return (0);
 }
