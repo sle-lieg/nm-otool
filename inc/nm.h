@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/20 20:14:52 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 11:58:41 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 #define O_REV 0x8 // option -r
 #define O_UND 0x10 // option -u
 #define O_DEF 0x20 // option -U
-#define O_ALL 0x40 // option -a
 
 extern int	g_flags;
 extern char	*g_filename;
@@ -142,6 +141,15 @@ uint64_t bendtolend(void *data, size_t size);
 */
 void			parse_l64(char *ptr);
 void			read_sym_table(t_file_64 *file);
+
+/*
+**	l64_symboles_parsing.c
+*/
+void	read_sym_table(t_file_64 *file);
+
+/*
+**	l64_display.c
+*/
 
 /*
 **	macho_b64.c

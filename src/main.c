@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/20 19:17:37 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/25 11:50:59 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,31 @@ uint64_t bendtolend(void *data, size_t size)
 	return (ret);
 }
 
-// TODO: add tab to funtion ptr for parsers
-void	nm(void *file_mmap)
+void	parse_FAT(void *file_mmap)
 {
 	t_fat_arch *arch;
-	uint32_t magic_number;
 	uint32_t	nb_arch;
 	uint32_t	offset;
 	size_t i;
 
-	magic_number = *(int *)file_mmap;
 	i = 0;
+	nb_arch = bendtolend(&((struct fat_header*)file_mmap)->nfat_arch, sizeof(uint32_t));
+	while (i < nb_arch)
+	{
+		arch = &((struct fat_arch *)((char*)file_mmap + sizeof(struct fat_header)))[i++];
+		offset = bendtolend(&arch->offset, sizeof(uint32_t));
+		nm((char*)file_mmap + offset);
+	}
+}
+
+// TODO: add tab to funtion ptr for parsers
+void	nm(void *file_mmap)
+{
+	uint32_t magic_number;
+
+	magic_number = *(int *)file_mmap;
+	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
+	// 	parse_archive(file_mmap);
 	if (magic_number == MH_MAGIC_64)
 		parse_l64(file_mmap);
 	else if (magic_number == MH_CIGAM_64)
@@ -47,15 +61,7 @@ void	nm(void *file_mmap)
 	else if (magic_number == MH_CIGAM)
 		parse_b32(file_mmap);
 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
-	{
-		nb_arch = bendtolend(&((struct fat_header*)file_mmap)->nfat_arch, sizeof(uint32_t));
-		while (i < nb_arch)
-		{
-			arch = &((struct fat_arch *)((char*)file_mmap + sizeof(struct fat_header)))[i++];
-			offset = bendtolend(&arch->offset, sizeof(uint32_t));
-			nm((char*)file_mmap + offset);
-		}
-	}
+		parse_FAT(file_mmap);
 	// ft_printf("magic_number = %x\n\n", magic_number);
 }
 
