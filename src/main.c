@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:44:06 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/26 16:10:14 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,63 +16,61 @@ int	g_flags;
 int	g_little_endian;
 char	*g_filename;
 
+void	nm(void *file_mmap)
+{
+	uint32_t magic_number;
+
+	g_little_endian = FALSE;
+	magic_number = *(int *)file_mmap;
+	if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
+		parse_archive(file_mmap);
+	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
+		parse_FAT(file_mmap);
+	else
+	{
+		if (!(g_flags & O_FIL) && (g_flags & O_MULT))
+			ft_printf("%s:\n", g_filename);
+		if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
+		{
+			g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
+			parse_64(file_mmap);
+		}
+		else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
+		{
+			g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
+			parse_32(file_mmap);
+		}
+	}
+	// ft_printf("magic_number = %x\n", magic_number);
+}
+
 // TODO: add tab to funtion ptr for parsers
 // void	nm(void *file_mmap)
 // {
 // 	uint32_t magic_number;
 
+// 	g_little_endian = FALSE;
 // 	magic_number = *(int *)file_mmap;
+// 	// ft_printf("magic_number = %x\n", magic_number);
 // 	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
 // 	// 	parse_archive(file_mmap);
-// 	if (magic_number == MH_MAGIC_64)
+// 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 // 	{
-// 		g_little_endian = TRUE;
-// 		parse_big_endian_64(file_mmap);
+// 		// if (!(g_flags & O_FIL) && (g_flags & O_MULT))
+// 		// 	ft_printf("%s:\n", g_filename);
+// 		g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
+// 		parse_64(file_mmap);
 // 	}
-// 	else if (magic_number == MH_CIGAM_64)
+// 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 // 	{
-// 		g_little_endian = FALSE;
-// 		parse_big_endian_64(file_mmap);
-// 	}
-// 	else if (magic_number == MH_MAGIC)
-// 	{
-// 		g_little_endian = TRUE;
-// 		parse_big_endian_32(file_mmap);
-// 	}
-// 	else if (magic_number == MH_CIGAM)
-// 	{
-// 		g_little_endian = FALSE;
-// 		parse_big_endian_32(file_mmap);
+// 		// if (!(g_flags & O_FIL) && (g_flags & O_MULT))
+// 		// 	ft_printf("%s:\n", g_filename);
+// 		g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
+// 		parse_32(file_mmap);
 // 	}
 // 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
 // 		parse_FAT(file_mmap);
-// 	// ft_printf("magic_number = %x\n\n", magic_number);
 // }
-
-void	nm(void *file_mmap)
-{
-	uint32_t magic_number;
-
-	magic_number = *(int *)file_mmap;
-	ft_printf("magic_number = %x\n", magic_number);
-	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
-	// 	parse_archive(file_mmap);
-	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
-	{
-		g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
-		parse_64(file_mmap);
-	}
-	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
-	{
-		g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
-		parse_32(file_mmap);
-	}
-	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
-	{
-		g_little_endian = FALSE;
-		parse_FAT(file_mmap);
-	}
-}
 
 static int	handle_error(int code_error, char *file)
 {
@@ -117,22 +115,26 @@ static int	handle_file(char *file_name)
 	return (0);
 }
 
-static int	get_option(char *option)
+static void	get_option(char *option)
 {
-	static char		*match_flag = OPTIONS;
-	int				i;
+	static char	*match_flag = OPTIONS;
+	char			*tmp;
+	int			i;
 
 	i = 0;
-	while (*option == '-')
-		option++;
-	while (*option)
+	tmp = option;
+	while (*tmp == '-')
+		tmp++;
+	while (*tmp)
 	{
-		if ((i = ft_strichr(match_flag, *option++)) >= 0)
+		if ((i = ft_strichr(match_flag, *tmp++)) >= 0)
 			g_flags |= (1 << i);
 		else
-			return (ERR_OPTION);
+		{
+			ft_printf("nm: Unknown command line argument '%s'.", option);
+			exit(EXIT_FAILURE);
+		}
 	}
-	return (0);
 }
 
 int	main(int ac, char **av)
@@ -141,24 +143,17 @@ int	main(int ac, char **av)
 
 	i = 0;
 	while (++i < ac && *av[i] == '-' && (ft_strcmp(av[i], "--") != 0))
-	{
-		if (get_option(av[i]) == ERR_OPTION)
-		{
-			ft_printf("nm: Unknown command line argument '%s'.", av[i]);
-			exit(EXIT_FAILURE);
-		}
-	}
+		get_option(av[i]);
 	if (i == ac)
 		handle_file("a.out");
 	else
 	{
 		if (!ft_strcmp(av[i], "--"))
 			++i;
+		if (i < ac - 1)
+			g_flags |= o_MULT;
 		while (i < ac)
-		{
-			ft_printf("\n%s:\n", av[i]);
 			handle_file(av[i++]);
-		}
 	}
 	return (0);
 }

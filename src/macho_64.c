@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:03:17 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:21:49 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/26 15:07:50 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	add_segment(t_file_64 *file, t_segment_64 *seg)
 
 void	parse_64(char *ptr)
 {
-	ft_printf("PARSE BIG 64\n");
+	// ft_printf("PARSE BIG 64\n");
 	t_file_64	file;
 	t_load_cmd	*ldc;
 	uint32_t		cmd;

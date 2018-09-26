@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:36:26 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/26 15:58:09 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # include "ft_printf.h"
 
-#define OPTIONS "gopruUa"
+#define OPTIONS "gopruU"
 #define O_GLO 0x1 // option -g
 #define O_FIL 0x2 // option -o
 #define O_UNS 0x4 // option -p
@@ -34,10 +34,13 @@
 #define O_UND 0x10 // option -u
 #define O_DEF 0x20 // option -U
 
+#define O_MULT 0x80000000 // set if multiple files to output
+
 extern int	g_flags;
 extern int	g_little_endian;
 extern char	*g_filename;
 
+typedef struct fat_header t_fat_header;
 typedef struct fat_arch t_fat_arch;
 typedef struct load_command t_load_cmd;
 typedef struct mach_header t_mach_h;

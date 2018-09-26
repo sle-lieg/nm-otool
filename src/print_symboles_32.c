@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:50:21 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:36:48 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/26 15:15:21 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	get_segment_type(t_segment_list *node, uint8_t n_sect)
 	return ('S');
 }
 
-static void	print_type(t_file *file, t_nlist *nlist)
+static char	get_type(t_file *file, t_nlist *nlist)
 {
 	uint8_t	type;
 	char		type_c;
@@ -54,26 +54,27 @@ static void	print_type(t_file *file, t_nlist *nlist)
 		type_c = get_segment_type(file->segments, nlist->n_sect);
 	if (!(nlist->n_type & N_EXT))
 		type_c |= 0x20;
-	ft_printf("%c ", type_c);
+	return (type_c);
 }
 
 static void	display_data(t_file *file, t_nlist *nlist)
 {
 	uint32_t n_value;
 	int32_t	index;
+	char		type_c;
 
 	n_value = get(&nlist->n_value, sizeof(nlist->n_value));
 	index = get(&nlist->n_un.n_strx, sizeof(nlist->n_un.n_strx));
+	type_c = get_type(file, nlist);
 	if (nlist->n_type & N_STAB)
 		return;
 	if (g_flags & O_FIL)
 		ft_printf("%s: ", g_filename);
-	if (n_value || (nlist->n_type & N_STAB))
-		ft_printf("%016lx ", n_value);
+	if (n_value || type_c == 't' || type_c == 'T')
+		ft_printf("%08x ", n_value);
 	else
-		ft_printf("                 ");
-	print_type(file, nlist);
-	ft_printf("%s\n", file->str_table + index);
+		ft_printf("         ");
+	ft_printf("%c %s\n", type_c, file->str_table + index);
 }
 
 void	print_list(t_file *file, t_nlist_list *elem)
