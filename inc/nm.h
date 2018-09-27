@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/26 15:58:09 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:51:27 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <mach-o/fat.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <ar.h>
 
 # include "ft_printf.h"
 
@@ -36,12 +37,28 @@
 
 #define O_MULT 0x80000000 // set if multiple files to output
 
+#define X86_64 "x86_64"
+#define I386 "i386"
+#define X86 "x86"
+#define POWERPC "ppc"
+#define POWERPC64 "ppc64"
+#define ARM "arm"
+#define ARM64 "arm64"
+#define HPPA "hppa"
+#define I860 "i860"
+#define SPARC "sparc"
+#define VAX "vax"
+
 extern int	g_flags;
 extern int	g_little_endian;
 extern char	*g_filename;
+extern char *g_arch_name;
+
+// extern char *g_title;
 
 typedef struct fat_header t_fat_header;
 typedef struct fat_arch t_fat_arch;
+typedef struct fat_arch_64 t_fat_arch_64;
 typedef struct load_command t_load_cmd;
 typedef struct mach_header t_mach_h;
 typedef struct mach_header_64 t_mach_h_64;
@@ -60,6 +77,9 @@ enum			e_errors {
 	ERR_MMAP,
 	ERR_OPTION
 };
+
+void	display_title();
+
 
 /*
 ** @note	Linked list of ptr to struct nlist (t_nlist[_64] *)
@@ -175,5 +195,11 @@ void	print_list(t_file *file, t_nlist_list *elem);
 */
 void	parse_FAT(void *file_mmap);
 uint64_t get(void *data, size_t size);
+void	get_arch_name(cpu_type_t cputype);
+
+/*
+**	fat_64.c
+*/
+void	parse_FAT_64(void *file_mmap);
 
 #endif

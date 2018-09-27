@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:34:27 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:35:54 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:14:20 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	insert_nlist(t_file *file, t_nlist *nlist)
 
 void	read_sym_table(t_file *file) // add strsize, the size of string table to check if the file is valid
 {
-	ft_printf("READ BIG 32\n");
+	// ft_printf("READ BIG 32\n");
 	t_nlist		*ptr;
 	t_nlist_list *last;
 	uint32_t nb_sym;
@@ -87,5 +87,6 @@ void	read_sym_table(t_file *file) // add strsize, the size of string table to ch
 		else
 			insert_nlist(file, ++ptr);
 	}
+	display_title();
 	print_list(file, file->symboles);
 }

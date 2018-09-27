@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:35:28 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/25 19:35:21 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:12:35 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,16 @@ static void	insert_nlist(t_file_64 *file, t_nlist_64 *nlist)
 	}
 }
 
+void	display_title()
+{
+	if ((g_flags & O_MULT) || g_arch_name)
+		ft_printf("\n%s", g_filename);
+	if (g_arch_name)
+		ft_printf(" (for architecture %s):\n", g_arch_name);
+	else if (g_flags & O_MULT)
+		ft_printf(":\n");
+}
+
 void	read_sym_table_64(t_file_64 *file)
 {
 	t_nlist_64		*ptr;
@@ -87,5 +97,6 @@ void	read_sym_table_64(t_file_64 *file)
 		else
 			insert_nlist(file, ++ptr);
 	}
+	display_title();
 	print_list_64(file, file->symboles);
 }

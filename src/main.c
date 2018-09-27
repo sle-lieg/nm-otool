@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/26 16:10:14 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/27 19:51:58 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,62 +15,7 @@
 int	g_flags;
 int	g_little_endian;
 char	*g_filename;
-
-void	nm(void *file_mmap)
-{
-	uint32_t magic_number;
-
-	g_little_endian = FALSE;
-	magic_number = *(int *)file_mmap;
-	if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
-		parse_archive(file_mmap);
-	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
-		parse_FAT(file_mmap);
-	else
-	{
-		if (!(g_flags & O_FIL) && (g_flags & O_MULT))
-			ft_printf("%s:\n", g_filename);
-		if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
-		{
-			g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
-			parse_64(file_mmap);
-		}
-		else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
-		{
-			g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
-			parse_32(file_mmap);
-		}
-	}
-	// ft_printf("magic_number = %x\n", magic_number);
-}
-
-// TODO: add tab to funtion ptr for parsers
-// void	nm(void *file_mmap)
-// {
-// 	uint32_t magic_number;
-
-// 	g_little_endian = FALSE;
-// 	magic_number = *(int *)file_mmap;
-// 	// ft_printf("magic_number = %x\n", magic_number);
-// 	// if (!ft_strncmp((char *)file_mmap, "!<arch>\n", 8))
-// 	// 	parse_archive(file_mmap);
-// 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
-// 	{
-// 		// if (!(g_flags & O_FIL) && (g_flags & O_MULT))
-// 		// 	ft_printf("%s:\n", g_filename);
-// 		g_little_endian = (magic_number == MH_MAGIC_64 ? TRUE : FALSE);
-// 		parse_64(file_mmap);
-// 	}
-// 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
-// 	{
-// 		// if (!(g_flags & O_FIL) && (g_flags & O_MULT))
-// 		// 	ft_printf("%s:\n", g_filename);
-// 		g_little_endian = (magic_number == MH_MAGIC ? TRUE : FALSE);
-// 		parse_32(file_mmap);
-// 	}
-// 	else if (magic_number == FAT_CIGAM || magic_number == FAT_CIGAM_64)
-// 		parse_FAT(file_mmap);
-// }
+char	*g_arch_name;
 
 static int	handle_error(int code_error, char *file)
 {
@@ -137,6 +82,36 @@ static void	get_option(char *option)
 	}
 }
 
+void	set_endianness(uint32_t magic)
+{
+	if (magic == MH_MAGIC_64 || magic == MH_MAGIC)
+		g_little_endian = TRUE;
+	else
+		g_little_endian = FALSE;
+}
+
+void	nm(void *file_mmap)
+{
+	uint32_t magic_number;
+
+	magic_number = *(int *)file_mmap;
+	set_endianness(magic_number);
+	// ft_printf("magic_number = %x\n", magic_number);
+	if (!ft_strncmp((char *)file_mmap, ARMAG, SARMAG))
+		parse_archive(file_mmap);
+	if (magic_number == FAT_CIGAM)
+		parse_FAT(file_mmap);
+	else if(magic_number == FAT_CIGAM_64)
+		parse_FAT_64(file_mmap);
+	else
+	{
+		if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
+			parse_64(file_mmap);
+		else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
+			parse_32(file_mmap);
+	}
+}
+
 int	main(int ac, char **av)
 {
 	int			i;
@@ -151,9 +126,12 @@ int	main(int ac, char **av)
 		if (!ft_strcmp(av[i], "--"))
 			++i;
 		if (i < ac - 1)
-			g_flags |= o_MULT;
+			g_flags |= O_MULT;
 		while (i < ac)
+		{
+			g_arch_name = NULL;
 			handle_file(av[i++]);
+		}
 	}
 	return (0);
 }
