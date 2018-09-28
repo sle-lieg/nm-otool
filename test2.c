@@ -1,8 +1,5 @@
-#include "test.h"
-
-void	print()
+void	bar()
 {
-	foo = 5;
-
-	printf("foo = %d\n", foo);
+	int a = 10;
+	a += 5;
 }

@@ -1,10 +1,7 @@
-#include "test.h"
+#include <unistd.h> 
 
-int foo = 10;
-int main()
+int foo()
 {
-	// int foo = 10;
-
-	print();
+	write(1, "ABC\n", 4);
 	return (0);
 }

@@ -14,7 +14,7 @@ LIBFT = $(LIB_DIR)libftprintf.a
 SRC_F =	main.c \
 			macho_32.c read_symboles_32.c print_symboles_32.c \
 			macho_64.c read_symboles_64.c print_symboles_64.c \
-			fat.c fat_64.c
+			fat.c fat_64.c archive.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_F))
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

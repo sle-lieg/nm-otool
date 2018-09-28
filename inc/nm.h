@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/27 19:51:27 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/28 17:55:56 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <mach-o/nlist.h>
 # include <mach-o/stab.h>
 # include <mach-o/fat.h>
+# include <mach-o/ranlib.h>
 # include <stdlib.h>
 # include <unistd.h>
 #include <ar.h>
@@ -129,6 +130,13 @@ typedef struct	s_segment64_list
 	struct s_segment64_list *next;
 }				t_segment64_list;
 
+
+typedef struct s_static_obj
+{
+	void						*object;
+	struct s_static_obj	*next;
+}					t_static_obj;
+
 /*
 ** @note	Contains different pointers to different part of a mach-o
 **			file mapped in memory
@@ -201,5 +209,10 @@ void	get_arch_name(cpu_type_t cputype);
 **	fat_64.c
 */
 void	parse_FAT_64(void *file_mmap);
+
+/*
+**	parse_archive.c
+*/
+void	parse_archive(void *file_mmap);
 
 #endif
