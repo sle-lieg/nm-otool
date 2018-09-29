@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:47:59 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/27 17:51:15 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:54:42 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,34 @@ static char	get_type(t_file_64 *file, t_nlist_64 *nlist)
 	return type_c;
 }
 
-static void	display_data(t_file_64 *file, t_nlist_64 *nlist)
+// static void	display_data(t_file_64 *file, t_nlist_64 *nlist)
+// {
+// 	uint64_t n_value;
+// 	int32_t	index;
+// 	char		type_c;
+
+// 	n_value = get(&nlist->n_value, sizeof(nlist->n_value));
+// 	index = get(&nlist->n_un.n_strx, sizeof(nlist->n_un.n_strx));
+// 	type_c = get_type(file, nlist);
+// 	if (nlist->n_type & N_STAB)
+// 		return;
+// 	if (g_flags & O_FIL)
+// 		ft_printf("%s: ", g_filename);
+// 	if (n_value || type_c == 't' || type_c == 'T')
+// 		ft_printf("%016lx ", n_value);
+// 	else
+// 		ft_printf("                 ");
+// 	ft_printf("%c %s\n", type_c, file->str_table + index);
+// }
+
+static void	display_data(t_file_64 *file, t_nlist64_list *elem)
 {
 	uint64_t n_value;
-	int32_t	index;
 	char		type_c;
 
-	n_value = get(&nlist->n_value, sizeof(nlist->n_value));
-	index = get(&nlist->n_un.n_strx, sizeof(nlist->n_un.n_strx));
-	type_c = get_type(file, nlist);
-	if (nlist->n_type & N_STAB)
+	n_value = get(&elem->symbole->n_value, sizeof(elem->symbole->n_value));
+	type_c = get_type(file, elem->symbole);
+	if (elem->symbole->n_type & N_STAB)
 		return;
 	if (g_flags & O_FIL)
 		ft_printf("%s: ", g_filename);
@@ -74,7 +92,7 @@ static void	display_data(t_file_64 *file, t_nlist_64 *nlist)
 		ft_printf("%016lx ", n_value);
 	else
 		ft_printf("                 ");
-	ft_printf("%c %s\n", type_c, file->str_table + index);
+	ft_printf("%c %s\n", type_c, elem->name);
 }
 
 void	print_list_64(t_file_64 *file, t_nlist64_list *elem)
@@ -83,13 +101,30 @@ void	print_list_64(t_file_64 *file, t_nlist64_list *elem)
 	{
 		if (!(g_flags & O_REV))
 		{
-			display_data(file, elem->symbole);
+			display_data(file, elem);
 			print_list_64(file, elem->next);
 		}
 		else
 		{
 			print_list_64(file, elem->next);
-			display_data(file, elem->symbole);
+			display_data(file, elem);
 		}
 	}
 }
+
+// void	print_list_64(t_file_64 *file, t_nlist64_list *elem)
+// {
+// 	if (elem)
+// 	{
+// 		if (!(g_flags & O_REV))
+// 		{
+// 			display_data(file, elem->symbole);
+// 			print_list_64(file, elem->next);
+// 		}
+// 		else
+// 		{
+// 			print_list_64(file, elem->next);
+// 			display_data(file, elem->symbole);
+// 		}
+// 	}
+// }

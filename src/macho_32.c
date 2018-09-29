@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:04:06 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/27 17:50:36 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:14:46 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ static void	add_segment(t_file *file, t_segment *seg)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+	}
+}
+
+void	check_limit(void *addr)
+{
+	if ((char*)addr > g_file_end)
+	{
+		ft_printf("`%s`: the file is corrupted or truncated.\n", g_filename);
+		exit(EXIT_FAILURE);
 	}
 }
 

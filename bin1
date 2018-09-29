@@ -1,0 +1,419 @@
+
+libft/libftprintf.a(ft_printf.o):
+                 U ___stack_chk_fail
+                 U ___stack_chk_guard
+                 U _ft_get_color
+0000000000000240 T _ft_init
+                 U _ft_parse
+00000000000004b0 T _ft_print_buff
+0000000000000000 T _ft_printf
+00000000000003a0 T _ft_read
+0000000000000560 T _ft_reset_options
+                 U _ft_type_b
+                 U _ft_type_big_c
+                 U _ft_type_big_d
+                 U _ft_type_big_o
+                 U _ft_type_big_s
+                 U _ft_type_big_u
+                 U _ft_type_big_x
+                 U _ft_type_c
+                 U _ft_type_d
+                 U _ft_type_o
+                 U _ft_type_p
+                 U _ft_type_s
+                 U _ft_type_u
+                 U _ft_type_x
+                 U _write
+
+libft/libftprintf.a(parsing.o):
+0000000000000310 T _ft_fill_error
+                 U _ft_get_accuracy
+00000000000004d0 T _ft_get_flags
+0000000000000550 T _ft_get_modifier
+0000000000000150 T _ft_get_opt
+                 U _ft_get_width
+0000000000000000 T _ft_parse
+                 U _ft_print_buff
+
+libft/libftprintf.a(type_s.o):
+00000000000001c0 T _ft_post_indent_s
+00000000000002e0 T _ft_pre_indent_s
+                 U _ft_print_buff
+                 U _ft_strlen
+                 U _ft_type_big_s
+0000000000000000 T _ft_type_s
+
+libft/libftprintf.a(type_d_i.o):
+0000000000000180 T _ft_get_arg_d
+                 U _ft_itoa
+0000000000000550 T _ft_post_indent_d
+0000000000000700 T _ft_pre_indent_d
+0000000000000860 T _ft_pre_indent_dnext
+                 U _ft_strlen
+0000000000000000 T _ft_type_d
+
+libft/libftprintf.a(type_p.o):
+                 U _ft_itoa_base
+0000000000000140 T _ft_post_indent_p
+0000000000000280 T _ft_pre_indent_p
+                 U _ft_strlen
+0000000000000000 T _ft_type_p
+
+libft/libftprintf.a(type_o_big_o.o):
+0000000000000180 T _ft_get_arg_o
+                 U _ft_itoa_base
+00000000000004b0 T _ft_post_indent_o
+00000000000005b0 T _ft_pre_indent_o
+                 U _ft_strlen
+00000000000006e0 T _ft_type_big_o
+0000000000000000 T _ft_type_o
+
+libft/libftprintf.a(type_u.o):
+0000000000000110 T _ft_get_arg_u
+                 U _ft_itoa_base
+                 U _ft_post_indent_o
+                 U _ft_pre_indent_o
+                 U _ft_strlen
+0000000000000440 T _ft_type_big_u
+0000000000000000 T _ft_type_u
+
+libft/libftprintf.a(type_x.o):
+0000000000000150 T _ft_get_arg_x
+                 U _ft_itoa_base
+0000000000000480 T _ft_post_indent_x
+00000000000005e0 T _ft_pre_indent_x
+0000000000000730 T _ft_pre_indent_xnext
+                 U _ft_strlen
+0000000000000000 T _ft_type_x
+
+libft/libftprintf.a(type_big_x.o):
+                 U _ft_get_arg_x
+                 U _ft_post_indent_x
+                 U _ft_pre_indent_x
+                 U _ft_strlen
+                 U _ft_toupper
+0000000000000000 T _ft_type_big_x
+
+libft/libftprintf.a(type_c_big_d.o):
+                 U _ft_type_big_c
+00000000000001a0 T _ft_type_big_d
+0000000000000000 T _ft_type_c
+                 U _ft_type_d
+
+libft/libftprintf.a(type_big_c.o):
+                 U ___mb_cur_max
+                 U _ft_four_octet
+0000000000000110 T _ft_post_indent_big_c
+0000000000000230 T _ft_pre_indent_big_c
+                 U _ft_three_octet
+                 U _ft_two_octet
+0000000000000000 T _ft_type_big_c
+                 U _ft_wchar_len
+
+libft/libftprintf.a(type_big_s.o):
+                 U ___mb_cur_max
+0000000000000380 T _ft_fill_wstring
+                 U _ft_four_octet
+0000000000000110 T _ft_get_accu
+00000000000001b0 T _ft_post_indent_big_s
+0000000000000290 T _ft_pre_indent_big_s
+                 U _ft_three_octet
+                 U _ft_two_octet
+0000000000000000 T _ft_type_big_s
+                 U _ft_wchar_len
+                 U _ft_wstr_len
+
+libft/libftprintf.a(type_b.o):
+0000000000000110 T _ft_get_arg_b
+                 U _ft_itoa_base
+0000000000000440 T _ft_post_indent_b
+00000000000005a0 T _ft_pre_indent_b
+00000000000006f0 T _ft_pre_indent_bnext
+                 U _ft_strlen
+0000000000000000 T _ft_type_b
+
+libft/libftprintf.a(unicode_tools.o):
+0000000000000000 T _ft_four_octet
+00000000000000f0 T _ft_three_octet
+00000000000001a0 T _ft_two_octet
+
+libft/libftprintf.a(parsing_tools.o):
+                 U _ft_atoi
+00000000000000f0 T _ft_get_accuracy
+0000000000000230 T _ft_get_color
+0000000000000000 T _ft_get_width
+                 U _ft_strcpy
+                 U _ft_strnequ
+
+libft/libftprintf.a(ft_memset.o):
+0000000000000000 T _ft_memset
+
+libft/libftprintf.a(ft_bzero.o):
+0000000000000000 T _ft_bzero
+
+libft/libftprintf.a(ft_memcpy.o):
+0000000000000000 T _ft_memcpy
+
+libft/libftprintf.a(ft_memccpy.o):
+0000000000000000 T _ft_memccpy
+
+libft/libftprintf.a(ft_memmove.o):
+00000000000000b0 t _ft_cpy_from_beg
+0000000000000060 t _ft_cpy_from_end
+0000000000000000 T _ft_memmove
+
+libft/libftprintf.a(ft_memchr.o):
+0000000000000000 T _ft_memchr
+
+libft/libftprintf.a(ft_memcmp.o):
+0000000000000000 T _ft_memcmp
+
+libft/libftprintf.a(ft_strlen.o):
+0000000000000000 T _ft_strlen
+
+libft/libftprintf.a(ft_strdup.o):
+0000000000000000 T _ft_strdup
+                 U _ft_strlen
+                 U _malloc
+
+libft/libftprintf.a(ft_strcpy.o):
+0000000000000000 T _ft_strcpy
+
+libft/libftprintf.a(ft_strncpy.o):
+0000000000000000 T _ft_strncpy
+
+libft/libftprintf.a(ft_strcat.o):
+0000000000000000 T _ft_strcat
+                 U _ft_strlen
+
+libft/libftprintf.a(ft_strncat.o):
+                 U _ft_strlen
+0000000000000000 T _ft_strncat
+
+libft/libftprintf.a(ft_strlcat.o):
+0000000000000000 T _ft_strlcat
+                 U _ft_strlen
+
+libft/libftprintf.a(ft_strchr.o):
+0000000000000000 T _ft_strchr
+
+libft/libftprintf.a(ft_strrchr.o):
+                 U _ft_strlen
+0000000000000000 T _ft_strrchr
+
+libft/libftprintf.a(ft_strstr.o):
+0000000000000000 T _ft_strstr
+
+libft/libftprintf.a(ft_strnstr.o):
+0000000000000000 T _ft_strnstr
+
+libft/libftprintf.a(ft_strcmp.o):
+0000000000000000 T _ft_strcmp
+
+libft/libftprintf.a(ft_strncmp.o):
+0000000000000000 T _ft_strncmp
+
+libft/libftprintf.a(ft_atoi.o):
+0000000000000000 T _ft_atoi
+
+libft/libftprintf.a(ft_isalpha.o):
+0000000000000000 T _ft_isalpha
+                 U _ft_islower
+                 U _ft_isupper
+
+libft/libftprintf.a(ft_isupper.o):
+0000000000000000 T _ft_isupper
+
+libft/libftprintf.a(ft_islower.o):
+0000000000000000 T _ft_islower
+
+libft/libftprintf.a(ft_isdigit.o):
+0000000000000000 T _ft_isdigit
+
+libft/libftprintf.a(ft_isalnum.o):
+0000000000000000 T _ft_isalnum
+                 U _ft_isalpha
+                 U _ft_isdigit
+
+libft/libftprintf.a(ft_isascii.o):
+0000000000000000 T _ft_isascii
+
+libft/libftprintf.a(ft_isprint.o):
+0000000000000000 T _ft_isprint
+
+libft/libftprintf.a(ft_toupper.o):
+                 U _ft_islower
+0000000000000000 T _ft_toupper
+
+libft/libftprintf.a(ft_tolower.o):
+                 U _ft_isupper
+0000000000000000 T _ft_tolower
+
+libft/libftprintf.a(ft_memalloc.o):
+0000000000000000 T _ft_memalloc
+                 U _malloc
+
+libft/libftprintf.a(ft_memdel.o):
+                 U _free
+0000000000000000 T _ft_memdel
+
+libft/libftprintf.a(ft_strnew.o):
+0000000000000000 T _ft_strnew
+                 U _malloc
+
+libft/libftprintf.a(ft_strdel.o):
+                 U _free
+0000000000000000 T _ft_strdel
+
+libft/libftprintf.a(ft_strclr.o):
+0000000000000000 T _ft_strclr
+
+libft/libftprintf.a(ft_striter.o):
+0000000000000000 T _ft_striter
+
+libft/libftprintf.a(ft_striteri.o):
+0000000000000000 T _ft_striteri
+
+libft/libftprintf.a(ft_strmap.o):
+                 U _ft_strlen
+0000000000000000 T _ft_strmap
+                 U _ft_strnew
+
+libft/libftprintf.a(ft_strmapi.o):
+                 U _ft_strlen
+0000000000000000 T _ft_strmapi
+                 U _ft_strnew
+
+libft/libftprintf.a(ft_strequ.o):
+                 U _ft_strcmp
+0000000000000000 T _ft_strequ
+
+libft/libftprintf.a(ft_strnequ.o):
+0000000000000000 T _ft_strnequ
+
+libft/libftprintf.a(ft_strsub.o):
+                 U _ft_strnew
+0000000000000000 T _ft_strsub
+
+libft/libftprintf.a(ft_strjoin.o):
+0000000000000000 T _ft_strjoin
+                 U _ft_strlen
+                 U _ft_strnew
+
+libft/libftprintf.a(ft_strtrim.o):
+00000000000002e0 t _ft_chk_spaces
+00000000000001b0 t _ft_sizecopy
+                 U _ft_strlen
+                 U _ft_strnew
+0000000000000000 T _ft_strtrim
+
+libft/libftprintf.a(ft_strsplit.o):
+                 U _ft_memcpy
+0000000000000000 T _ft_strsplit
+0000000000000140 t _initarray
+                 U _malloc
+
+libft/libftprintf.a(ft_itoa.o):
+                 U _ft_bzero
+0000000000000120 t _ft_cast
+0000000000000000 T _ft_itoa
+0000000000000210 b _ft_itoa.str
+
+libft/libftprintf.a(ft_putchar.o):
+0000000000000000 T _ft_putchar
+                 U _write
+
+libft/libftprintf.a(ft_putstr.o):
+0000000000000000 T _ft_putstr
+                 U _ft_strlen
+                 U _write
+
+libft/libftprintf.a(ft_putendl.o):
+0000000000000000 T _ft_putendl
+                 U _write
+
+libft/libftprintf.a(ft_putnbr.o):
+0000000000000000 T _ft_putnbr
+                 U _write
+
+libft/libftprintf.a(ft_putchar_fd.o):
+0000000000000000 T _ft_putchar_fd
+                 U _write
+
+libft/libftprintf.a(ft_putstr_fd.o):
+                 U _ft_putchar_fd
+0000000000000000 T _ft_putstr_fd
+
+libft/libftprintf.a(ft_putendl_fd.o):
+                 U _ft_putchar_fd
+0000000000000000 T _ft_putendl_fd
+                 U _write
+
+libft/libftprintf.a(ft_putnbr_fd.o):
+0000000000000000 T _ft_putnbr_fd
+                 U _write
+
+libft/libftprintf.a(ft_lstnew.o):
+0000000000000000 T _ft_lstnew
+                 U _ft_memalloc
+                 U _ft_memcpy
+                 U _malloc
+
+libft/libftprintf.a(ft_lstdelone.o):
+                 U _free
+0000000000000000 T _ft_lstdelone
+
+libft/libftprintf.a(ft_lstdel.o):
+                 U _free
+0000000000000000 T _ft_lstdel
+
+libft/libftprintf.a(ft_lstadd.o):
+0000000000000000 T _ft_lstadd
+
+libft/libftprintf.a(ft_lstiter.o):
+0000000000000000 T _ft_lstiter
+
+libft/libftprintf.a(ft_lstmap.o):
+0000000000000000 T _ft_lstmap
+
+libft/libftprintf.a(ft_lstaddend.o):
+0000000000000000 T _ft_lstaddend
+
+libft/libftprintf.a(ft_d_lstaddfront.o):
+0000000000000000 T _ft_d_lstaddfront
+
+libft/libftprintf.a(ft_d_lstaddend.o):
+0000000000000000 T _ft_d_lstaddend
+
+libft/libftprintf.a(ft_d_lstdel.o):
+                 U _free
+0000000000000000 T _ft_d_lstdel
+
+libft/libftprintf.a(ft_d_lstdelone.o):
+                 U _free
+0000000000000000 T _ft_d_lstdelone
+
+libft/libftprintf.a(ft_switchchar.o):
+0000000000000000 T _ft_switchchar
+
+libft/libftprintf.a(ft_count_n.o):
+0000000000000000 T _ft_count_n
+
+libft/libftprintf.a(ft_pow.o):
+0000000000000000 T _ft_pow
+
+libft/libftprintf.a(ft_itoa_base.o):
+                 U _ft_bzero
+0000000000000000 T _ft_itoa_base
+0000000000000160 b _ft_itoa_base.str
+
+libft/libftprintf.a(ft_wchar_len.o):
+                 U ___mb_cur_max
+0000000000000000 T _ft_wchar_len
+
+libft/libftprintf.a(ft_wstr_len.o):
+                 U ___mb_cur_max
+0000000000000000 T _ft_wstr_len
+
+libft/libftprintf.a(ft_strichr.o):
+0000000000000000 T _ft_strichr

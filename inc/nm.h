@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/28 17:55:56 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:07:36 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 extern int	g_flags;
 extern int	g_little_endian;
 extern char	*g_filename;
+extern char	*g_file_end;
 extern char *g_arch_name;
 
 // extern char *g_title;
@@ -87,12 +88,14 @@ void	display_title();
 */
 typedef struct	s_nlist_list
 {
+	char						*name;
 	t_nlist					*symbole;
 	struct s_nlist_list	*next;
 }				t_nlist_list;
 
 typedef struct	s_nlist64_list
 {
+	char							*name;
 	t_nlist_64					*symbole;
 	struct s_nlist64_list	*next;
 }				t_nlist64_list;
@@ -133,6 +136,8 @@ typedef struct	s_segment64_list
 
 typedef struct s_static_obj
 {
+	uint32_t					offset;
+	uint32_t					name_size;
 	void						*object;
 	struct s_static_obj	*next;
 }					t_static_obj;
@@ -162,6 +167,9 @@ typedef struct	s_file_64
 												// hold symbole_table informations
 	char	*str_table;		// start of the symboles
 }				t_file_64;
+
+void	check_limit(void *addr);
+
 
 /*
 **	main.c

@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:03:17 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/27 17:50:41 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/29 18:30:53 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static void	add_segment(t_file_64 *file, t_segment_64 *seg)
 
 void	parse_64(char *ptr)
 {
-	// ft_printf("PARSE BIG 64\n");
 	t_file_64	file;
 	t_load_cmd	*ldc;
 	uint32_t		cmd;
@@ -81,11 +80,13 @@ void	parse_64(char *ptr)
 	file = (t_file_64){NULL, NULL, NULL, NULL, NULL, NULL};
 	file.header = (t_mach_h_64 *)ptr;
 	file.ld_cmd = (t_load_cmd *)(file.header + 1);
+	check_limit(file.ld_cmd);
 	ldc = file.ld_cmd;
 	nb_cmds = get(&file.header->ncmds, sizeof(file.header->ncmds));
 	i = 0;
 	while (i++ < file.header->ncmds)
 	{
+		check_limit(((char*)ldc + get(&ldc->cmdsize, sizeof(ldc->cmdsize))));
 		cmd = get(&ldc->cmd, sizeof(ldc->cmd));
 		if (cmd == LC_SEGMENT_64)
 			add_segment(&file, (t_segment_64 *)ldc);

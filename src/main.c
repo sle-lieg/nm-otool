@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/27 19:51:58 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/29 20:26:31 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	g_flags;
 int	g_little_endian;
 char	*g_filename;
+char	*g_file_end;
 char	*g_arch_name;
 
 static int	handle_error(int code_error, char *file)
@@ -51,9 +52,11 @@ static int	handle_file(char *file_name)
 		return (handle_error(ERR_FSTAT, file_name));
 	if ((buf.st_mode & S_IFMT) == S_IFDIR)
 		return (handle_error(ERR_IS_DIR, file_name));
+	ft_printf("SIZE: %u\n", buf.st_size);
 	if ((ptr = mmap(NULL, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) \
 		== MAP_FAILED)
 		return (handle_error(ERR_MMAP, file_name));
+	g_file_end = ptr + buf.st_size;
 	nm(ptr);
 	munmap(ptr, buf.st_size);
 	close(fd);
@@ -94,12 +97,13 @@ void	nm(void *file_mmap)
 {
 	uint32_t magic_number;
 
+	check_limit((char*)file_mmap);
 	magic_number = *(int *)file_mmap;
 	set_endianness(magic_number);
-	// ft_printf("magic_number = %x\n", magic_number);
+	ft_printf("magic_number = %x\n", magic_number);
 	if (!ft_strncmp((char *)file_mmap, ARMAG, SARMAG))
 		parse_archive(file_mmap);
-	if (magic_number == FAT_CIGAM)
+	else if (magic_number == FAT_CIGAM)
 		parse_FAT(file_mmap);
 	else if(magic_number == FAT_CIGAM_64)
 		parse_FAT_64(file_mmap);
@@ -109,6 +113,8 @@ void	nm(void *file_mmap)
 			parse_64(file_mmap);
 		else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 			parse_32(file_mmap);
+		else
+			ft_printf("the file was not recognized as a valid file.\n");
 	}
 }
 
