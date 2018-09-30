@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:35:28 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/29 21:00:39 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/30 15:52:55 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ static void	insert_nlist(t_file_64 *file, t_nlist_64 *nlist)
 
 void	display_title()
 {
+	if (g_flags & O_LIB_A)
+		return ;
 	if ((g_flags & O_MULT) || g_arch_name)
 		ft_printf("\n%s", g_filename);
 	if (g_arch_name)

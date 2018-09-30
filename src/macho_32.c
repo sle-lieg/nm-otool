@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:04:06 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/29 18:14:46 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/30 14:44:22 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	check_limit(void *addr)
 
 void	parse_32(char *ptr)
 {
-	// ft_printf("PARSE BIG 32\n");
 	t_file		file;
 	t_load_cmd	*ldc;
 	uint32_t		cmd;

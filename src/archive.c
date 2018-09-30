@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 16:45:34 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/29 20:47:14 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/30 15:54:27 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_static_obj *create_new_static_object(void *f_start, struct ranlib *obj)
 
 void	display_lib_static(t_static_obj *list)
 {
+	g_flags |= O_LIB_A;
 	while (list)
 	{
 		// ft_printf("obj: %x\n", *(int*)list->object);

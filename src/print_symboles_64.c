@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:47:59 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/29 19:54:42 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/30 15:46:46 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ static void	display_data(t_file_64 *file, t_nlist64_list *elem)
 	type_c = get_type(file, elem->symbole);
 	if (elem->symbole->n_type & N_STAB)
 		return;
-	if (g_flags & O_FIL)
-		ft_printf("%s: ", g_filename);
 	if (n_value || type_c == 't' || type_c == 'T')
 		ft_printf("%016lx ", n_value);
 	else

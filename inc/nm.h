@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/09/29 19:07:36 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/09/30 15:53:24 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@
 
 # include "ft_printf.h"
 
-#define OPTIONS "gopruU"
+#define OPTIONS "gpruU"
 #define O_GLO 0x1 // option -g
-#define O_FIL 0x2 // option -o
-#define O_UNS 0x4 // option -p
-#define O_REV 0x8 // option -r
-#define O_UND 0x10 // option -u
-#define O_DEF 0x20 // option -U
+#define O_UNS 0x2 // option -p
+#define O_REV 0x4 // option -r
+#define O_UND 0x8 // option -u
+#define O_DEF 0x10 // option -U
 
+#define O_LIB_A 0x20 // set if it is a static lib
 #define O_MULT 0x80000000 // set if multiple files to output
 
 #define X86_64 "x86_64"
