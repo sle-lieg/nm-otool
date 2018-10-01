@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/01 10:39:21 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 19:11:14 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/01 20:28:10 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	get_section_text(t_segment *seg_text, char *ptr)
 	{
 		ft_printf("%s", g_filename);
 		if (g_arch_name)
-			ft_printf("(%s):\nContents of (__TEXT,__text) section\n", \
-				g_filename);
+			ft_printf("(architecture %s):\nContents of (__TEXT,__text) section\n", \
+				g_arch_name);
 		else
 			ft_printf(":\nContents of (__TEXT,__text) section\n");
 	}

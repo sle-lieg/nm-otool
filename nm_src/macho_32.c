@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:04:06 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 18:55:17 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/01 20:43:54 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,27 @@ static void				destroy_lists(t_file *file)
 {
 	t_nlist_list	*tmp;
 	t_segment_list	*tmp2;
+	void				*to_delete;
 
 	tmp = file->symboles;
 	tmp2 = file->segments;
 	while (tmp)
 	{
-		free(tmp);
+		to_delete = tmp;
 		tmp = tmp->next;
+		free(to_delete);
 	}
 	while (tmp2)
 	{
 		while (tmp2->sections)
 		{
-			free(tmp2->sections);
+			to_delete = tmp2->sections;
 			tmp2->sections = tmp2->sections->next;
+			free(to_delete);
 		}
+		to_delete = tmp2;
+		tmp2 = tmp2->next;
+		free(to_delete);
 	}
 }
 

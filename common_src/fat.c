@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 13:17:21 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 18:41:41 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/01 20:23:30 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void			parse_fat(void *file_mmap)
 				get_arch_name(get(&arch->cputype, sizeof(arch->cputype)));
 			offset = get(&arch->offset, sizeof(uint32_t));
 			nm((char*)file_mmap + offset);
+			if (i < nb_arch)
+				ft_printf("\n");
 		}
 	}
 }
