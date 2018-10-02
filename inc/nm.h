@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 19:40:01 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 10:46:01 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void			parse_32(char *ptr);
 **	MACHO_64.c
 */
 void			parse_64(char *ptr);
+void			print_infos(void);
 
 /*
 **	PRINT_SYMBOLES_32.c

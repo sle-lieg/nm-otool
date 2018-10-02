@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 20:25:20 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 14:49:04 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,8 @@ int			main(int ac, char **av)
 		while (i < ac)
 		{
 			g_arch_name = NULL;
+			g_flags &= ~(O_LIB_A);
 			handle_file(av[i++]);
-			// if (i < ac)
-				ft_printf("\n");
 		}
 	}
 	return (0);

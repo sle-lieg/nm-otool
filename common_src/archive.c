@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 16:45:34 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 18:37:59 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 14:45:19 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void			display_lib_static(t_static_obj *list)
 		nm(list->object);
 		list = list->next;
 	}
-	ft_printf("\n");
 }
 
 static int			is_in_list(uint32_t offset, t_static_obj *list)

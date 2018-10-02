@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:35:28 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 19:09:25 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 14:47:26 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ t_nlist64_list			*create_new_nlist_64(t_nlist_64 *nlist, char *str_table)
 	return (new);
 }
 
-static t_nlist64_list	*find_insert(t_nlist64_list *tmp, char *new_sym)
+static t_nlist64_list	*find_insert(t_nlist64_list *tmp, \
+	char *new_sym, uint64_t val)
 {
 	while (tmp->next)
 	{
-		if (ft_strcmp(tmp->next->name, new_sym) > 0)
+		if ((ft_strcmp(tmp->next->name, new_sym) == 0 \
+			&& get(&tmp->next->symbole->n_value, sizeof(val)) >= val) \
+			|| ft_strcmp(tmp->next->name, new_sym) > 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -46,14 +49,18 @@ static void				insert_nlist(t_file_64 *file, t_nlist_64 *nlist)
 
 	tmp = file->symboles;
 	new = create_new_nlist_64(nlist, file->str_table);
-	if (ft_strcmp(tmp->name, new->name) > 0)
+	if (ft_strcmp(tmp->name, new->name) > 0 \
+		|| (!ft_strcmp(tmp->name, new->name) \
+		&& get(&tmp->symbole->n_value, sizeof(uint64_t)) \
+		> get(&nlist->n_value, sizeof(nlist->n_value))))
 	{
 		file->symboles = new;
 		file->symboles->next = tmp;
 	}
 	else
 	{
-		tmp = find_insert(file->symboles, new->name);
+		tmp = find_insert(file->symboles, new->name, \
+			get(&nlist->n_value, sizeof(nlist->n_value)));
 		new->next = tmp->next;
 		tmp->next = new;
 	}

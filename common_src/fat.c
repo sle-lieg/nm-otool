@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 13:17:21 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 20:23:30 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 14:52:05 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ void			get_arch_name(cpu_type_t cputype)
 		g_arch_name = VAX;
 }
 
-static uint32_t	get_x86_64_offset(t_fat_arch *arch, uint32_t nb_arch)
+static uint32_t	get_x86_64_offset(t_fat_arch *arch, uint32_t nb_arch, \
+	void *file_mmap)
 {
 	uint32_t offset;
 
 	while (nb_arch--)
 	{
+		check_limit(file_mmap + get(&arch->offset, sizeof(arch->offset))
+			+ get(&arch->size, sizeof(arch->size)));
 		if (get(&arch->cputype, sizeof(arch->cputype)) == CPU_TYPE_X86_64)
 		{
 			offset = get(&arch->offset, sizeof(arch->offset));
@@ -66,7 +69,7 @@ void			parse_fat(void *file_mmap)
 	nb_arch = get(&((t_fat_header*)file_mmap)->nfat_arch, sizeof(uint32_t));
 	arch = (void*)((char*)file_mmap + sizeof(t_fat_header));
 	check_limit((char*)arch + sizeof(t_fat_arch) * nb_arch);
-	if ((offset = get_x86_64_offset(arch, nb_arch)))
+	if ((offset = get_x86_64_offset(arch, nb_arch, file_mmap)))
 		nm((char*)file_mmap + offset);
 	else
 	{
@@ -74,13 +77,11 @@ void			parse_fat(void *file_mmap)
 		{
 			g_little_endian = FALSE;
 			arch = &((t_fat_arch *)((char*)file_mmap \
-			+ sizeof(t_fat_header)))[i++];
+									+ sizeof(t_fat_header)))[i++];
 			if (nb_arch > 1)
 				get_arch_name(get(&arch->cputype, sizeof(arch->cputype)));
 			offset = get(&arch->offset, sizeof(uint32_t));
 			nm((char*)file_mmap + offset);
-			if (i < nb_arch)
-				ft_printf("\n");
 		}
 	}
 }
