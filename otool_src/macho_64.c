@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/01 10:39:24 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/02 14:48:17 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 16:38:39 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void		print_infos(void)
 		ft_printf("Contents of (__TEXT,__text) section\n");
 	else
 	{
-		ft_printf("%s", g_filename);
+		ft_printf("\n%s", g_filename);
 		if (g_arch_name)
-			ft_printf("(architecture %s):\n\
-			Contents of (__TEXT,__text) section\n", g_arch_name);
+			ft_printf("(architecture %s):\nContents of (__TEXT,__text) section\
+\n", g_arch_name);
 		else
 			ft_printf(":\nContents of (__TEXT,__text) section\n");
 	}
