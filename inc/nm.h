@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:57:46 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/02 10:46:01 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 15:14:04 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@
 # include "ft_printf.h"
 # include "structures.h"
 
-# define OPTIONS "gpruU"
+# define OPTIONS "gpruUj"
 # define O_GLO 0x1
 # define O_UNS 0x2
 # define O_REV 0x4
 # define O_UND 0x8
 # define O_DEF 0x10
+# define O_RAW 0x20
 
-# define O_LIB_A 0x20
+# define O_LIB_A 0x40
 # define O_MULT 0x80000000
 
 # define X86_64 "x86_64"

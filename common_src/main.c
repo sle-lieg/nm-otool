@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/13 14:24:50 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/02 14:49:04 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 15:19:44 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	get_option(char *option)
 			g_flags |= (1 << i);
 		else
 		{
-			ft_printf("nm: Unknown command line argument '%s'.", option);
+			ft_printf("nm: Unknown command line argument '%s'.\n", option);
 			exit(EXIT_FAILURE);
 		}
 	}

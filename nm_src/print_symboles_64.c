@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 18:47:59 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 19:07:43 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 15:18:47 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,19 @@ static void	display_data(t_file_64 *file, t_nlist64_list *elem)
 
 	n_value = get(&elem->symbole->n_value, sizeof(elem->symbole->n_value));
 	type_c = get_type(file, elem->symbole);
-	if (elem->symbole->n_type & N_STAB)
+	if (elem->symbole->n_type & N_STAB \
+	|| (g_flags & O_GLO && !(elem->symbole->n_type & N_EXT))
+	|| (g_flags & O_UND && (elem->symbole->n_type & N_TYPE))
+	|| (g_flags & O_DEF && !(elem->symbole->n_type & N_TYPE)))
 		return ;
-	if (n_value || type_c == 't' || type_c == 'T')
-		ft_printf("%016lx ", n_value);
-	else
-		ft_printf("                 ");
-	ft_printf("%c %s\n", type_c, elem->name);
+	if (!(g_flags & O_RAW) && !(g_flags & O_UND))
+	{
+		if (n_value || type_c == 't' || type_c == 'T')
+			ft_printf("%016lx %c ", n_value, type_c);
+		else
+			ft_printf("                 %c ", type_c);
+	}
+	ft_printf("%s\n", elem->name);
 }
 
 void		print_list_64(t_file_64 *file, t_nlist64_list *elem)

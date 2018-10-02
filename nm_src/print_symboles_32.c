@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 15:50:21 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 19:06:26 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 15:00:56 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	display_data(t_file *file, t_nlist_list *elem)
 
 	n_value = get(&elem->symbole->n_value, sizeof(elem->symbole->n_value));
 	type_c = get_type(file, elem->symbole);
-	if (elem->symbole->n_type & N_STAB)
+	if (elem->symbole->n_type & N_STAB \
+		|| (g_flags & O_GLO && !(elem->symbole->n_type & N_EXT)))
 		return ;
 	if (n_value || type_c == 't' || type_c == 'T')
 		ft_printf("%08x ", n_value);
