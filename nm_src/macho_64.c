@@ -6,7 +6,7 @@
 /*   By: sle-lieg <sle-lieg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 07:03:17 by sle-lieg          #+#    #+#             */
-/*   Updated: 2018/10/01 20:43:25 by sle-lieg         ###   ########.fr       */
+/*   Updated: 2018/10/02 16:00:52 by sle-lieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,12 @@ void					parse_64(char *ptr)
 			add_segment(&file, (t_segment_64 *)ldc);
 		else if (get(&ldc->cmd, sizeof(ldc->cmd)) == LC_SYMTAB)
 			file.symtab_cmd = (t_symtab_cmd *)ldc;
-		ldc = (t_load_cmd *)((char*)ldc \
-									+ get(&ldc->cmdsize, sizeof(ldc->cmdsize)));
+		ldc = (t_load_cmd *)((char*)ldc + get(&ldc->cmdsize, sizeof(uint32_t)));
 	}
-	file.str_table = ptr \
-		+ get(&file.symtab_cmd->stroff, sizeof(file.symtab_cmd->stroff));
-	read_sym_table_64(&file);
+	if (file.symtab_cmd)
+	{
+		file.str_table = ptr + get(&file.symtab_cmd->stroff, sizeof(uint32_t));
+		read_sym_table_64(&file);
+	}
 	destroy_lists(&file);
 }
